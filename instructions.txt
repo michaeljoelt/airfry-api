@@ -1,0 +1,117 @@
+/***********************************
+   Terminal Commands / File setup
+************************************/
+/* local setup */
+npm init
+npm install express --save
+npm install cors --save
+-> create file .gitignore and put "npm_modules"(no quotes) on top line
+-> create index.html (example below)
+-> create server.js (example below)
+node server.js (to make sure it works locally: http://localhost:8000)
+
+/* github setup */
+-> create new repo on github
+git init
+git add .
+git commit -m "working api"
+git branch -M main
+git remote add origin [repo url]
+git push -u origin main
+
+/* heroku setup */
+npm install -g heroku
+heroku login 
+heroku create airfry-api (needs to be unique; this example would create https://airfry-api.herokuapp.com/)
+-> create file Procfile and put "web: node server.js"(no quotes) on top line so heroku knows how to start
+git add .
+git commit -m "added procfile for heroku"
+git push heroku main
+-> go to created site (for example: https://airfry-api.herokuapp.com/)
+
+
+
+/***********************************
+        index.html example
+************************************/
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tea Time API</title>
+</head>
+
+<body>
+    <h1>Tea Time API</h1>
+    <p>To view API, use <a href="/api">/api</a></p>
+    <p>To search API, use <a href="/api/oolong">/api/oolong</a> (replace oolong to search for others)</p>
+</body>
+
+</html>
+
+
+/***********************************
+        server.js example
+************************************/
+const express = require('express')
+const app = express()
+const cors = require('cors') //allows requests from external clients
+app.use(cors())
+const PORT = 8000
+
+const tea = {
+    "oolong": {
+        "type": "black",
+        "origin": "China",
+        "waterTempF": 200,
+        "steepTimeSecond": 180,
+        "caffinated": true,
+        "desc": "a traditional semi-oxidized Chinese tea produced through a process including withering the plant under strong sun and oxidation before curling and twisting"
+    },
+    "genmaicha": {
+        "type": "green",
+        "origin": "Japan",
+        "waterTempF": 180,
+        "steepTimeSecond": 240,
+        "caffinated": true,
+        "desc": "a Japanese brown rice green tea consisting of green tea mixed with roasted popped brown rice"
+    },
+    "unknown": {
+        "type": "unknown",
+        "origin": "unknown",
+        "waterTempF": 0,
+        "steepTimeSecond": 0,
+        "caffinated": false,
+        "desc": "unknown"
+    }
+}
+
+app.get("/", (request, response) => {
+    console.log("sending you to index.html")
+    response.sendFile(`${__dirname}/index.html`)
+})
+
+app.get("/api/:name", (request, response) => {
+    const teaName = (request.params.name).toLowerCase()
+    console.log(`searching for: ${teaName}`)
+
+    if (tea[teaName]) {
+        response.json(tea[teaName])
+        console.log(tea[teaName])
+    } else {
+        response.json(tea['unknown'])
+        console.log(tea['unknown'])
+    }
+})
+
+app.get("/api", (request, response) => {
+    response.json(tea)
+})
+
+app.listen(process.env.PORT || PORT, () => { //process.env.PORT allows you to use heroku's port number
+    console.log(`listening on port ${PORT}`)
+    console.log(`search api using pattern: /api/oolong (replace oolong with search term)`)
+})

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Airfryer Quick Lookup and API</title>
+</head>
+
+<body>
+    <h1>Airfryer Quick Lookup</h1>
+    <h2>Lookup</h2>
+    <form action="/lookup">
+        <label for="category">Category:</label>
+        <select id="category" name="category">
+            <option value="chicken">Chicken</option>
+            <option value="pork">Pork</option>
+            <option value="beef">Beef</option>
+            <option value="fish">Fish</option>
+            <option value="vegies">Vegies</option>
+        </select>
+        <p>TODO: Make dynamic through main.js</p>
+        <label for="type">Type:</label>
+        <select id="type" name="type">
+            <option value="breast">Breast</option>
+            <option value="whole">Whole</option>
+        </select>
+        <input type="submit">
+    </form>
+    <h2>API</h2>
+    <p>To view API, use <a href="/api">/api</a></p>
+    <p>To search API, use <a href="/api/chicken/breast">/api/chicken/breast</a> (replace with category/type, like
+        api/pork/bacon)</p>
+</body>
+
+<script type="text/javascript" src="main.js"></script>
+
+</html>
