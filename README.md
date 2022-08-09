@@ -1,5 +1,5 @@
 # Airfry API 
-This is a basic API setup for Heroku.
+Basic API setup for Heroku: airfry-api.herokuapp.com
 ## Purpose
 Quick reference for air frying temps and times.
 ## Status
